@@ -1,0 +1,97 @@
+
+This webpage provides a list of features that the author
+thinks should be include in any OS
+    http://c2.com/cgi/wiki?NewOsFeatures
+
+
+
+
+FileSystem
+----------------------------
+Everything should be human readable!
+
+All binary files can be human readable.
+However if we made all binaries human readable they would
+take alot more space to store and too much time to parse and use.
+The space problem can be solved using general compression, however,
+a general compression algorithm won't be as effecient as a domain
+specific binary representation, plus, this adds more time to parse and
+use the file.
+The get the best of all worlds, a binary schema can be used
+to read the binary data.
+It can remain in a domain specific binary form, but then can be
+converted to human readable using the schema.
+The schema can also validate the binary.
+
+A file is a grouping of related things.
+
+Example:
+
+File: printf.c
+MemberOf: /home/mycode;/home/sys/src/print;/home/mycode/hello
+    // MemberOf is a file to parent directory relationship
+IncludedIn: /home/mycode/allprints.c
+    // IncludedIn means this file is included in another file
+Contents:
+
+int printf(const char* format, ...)
+{
+    ...
+}
+
+File: printf.mc (mc = machine code)
+MemberOf: /home/mycode;/home/sys/src/print
+
+Example:
+
+File: hello.c
+MemberOf: /home/mycode/hello
+InputFor: hello.mc
+Contents:
+int main(int argc, const char* argv[])
+{
+    printf("Hello World!\n");
+    return 0;
+}
+
+File: hello.pt (pt = "parsed tree")
+Input: hello.c
+LinkedBy: hello.prog
+
+File: hello.exe
+Link: hello.mc
+
+
+// A Link is a runtime linking of 2 files
+// hello.prog is "linked" to hello.mc, making hello.mc
+// a "part" of hello.prog
+// Note: A link could link only a peice of a file.
+//       it will need to know what part, such as specifying
+//       an offset and a length/endoffset.
+
+
+Compiler for language X
+----------------------------------------
+source.x
+
+1. Parse/Analyze (Each File Individually)
+    source.x -> source.pt (parsed tree)
+2. Link (Link the files (Link all files into one)
+    source1.pt + source2.pt + ... -> output.ptl (linked parse tree)
+3. Language Optimization
+4. Code Generation
+5. Machine Code Optimization
+
+By linking before code generation, you can perform higher-level
+optimizations and also provide better linker error messages.
+
+
+
+
+
+
+
+
+
+
+
